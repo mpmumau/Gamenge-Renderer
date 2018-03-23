@@ -5,10 +5,10 @@
 #include <glm/glm.hpp>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 /* Self header */
-#include <gamenge/renderer/renderable.h>
+#include <gamenge/renderer/renderable.hpp>
 
 using namespace Gamenge;
 

@@ -8,10 +8,10 @@
 #include <assimp/mesh.h>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 /* Self header */
-#include <gamenge/renderer/mesh_data.h>
+#include <gamenge/renderer/mesh_data.hpp>
 
 using namespace Gamenge;
 

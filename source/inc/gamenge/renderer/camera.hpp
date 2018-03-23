@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 using namespace Gamenge;
 

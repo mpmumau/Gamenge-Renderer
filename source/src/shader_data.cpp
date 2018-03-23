@@ -6,10 +6,10 @@
 #include <GL/glu.h>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 /* Self header */
-#include <gamenge/renderer/shader_data.h>
+#include <gamenge/renderer/shader_data.hpp>
 
 using namespace Gamenge;
 

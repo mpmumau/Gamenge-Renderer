@@ -9,12 +9,12 @@
 #include <glm/gtx/transform.hpp>
 
 /* Application headers */
-#include <gamenge/common/common.h>
-#include <gamenge/renderer/camera.h>
-#include <gamenge/renderer/mesh_data.h>
-#include <gamenge/renderer/renderable.h>
-#include <gamenge/renderer/shader_data.h>
-#include <gamenge/renderer/texture_data.h>
+#include <gamenge/common/common.hpp>
+#include <gamenge/renderer/camera.hpp>
+#include <gamenge/renderer/mesh_data.hpp>
+#include <gamenge/renderer/renderable.hpp>
+#include <gamenge/renderer/shader_data.hpp>
+#include <gamenge/renderer/texture_data.hpp>
 
 /* Self header */
 #include <gamenge/renderer/renderer.h>

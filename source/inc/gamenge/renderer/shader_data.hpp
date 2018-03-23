@@ -6,7 +6,7 @@
 #include <GL/glu.h>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 using namespace Gamenge;
 

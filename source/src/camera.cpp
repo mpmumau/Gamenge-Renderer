@@ -4,10 +4,10 @@
 #include <glm/glm.hpp>
 
 /* Application headers */
-#include <gamenge/common/common.h>
+#include <gamenge/common/common.hpp>
 
 /* Self header */
-#include <gamenge/renderer/camera.h>
+#include <gamenge/renderer/camera.hpp>
 
 using namespace Gamenge;
 
