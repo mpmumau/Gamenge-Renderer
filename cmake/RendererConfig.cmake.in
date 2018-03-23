@@ -1,0 +1,19 @@
+get_filename_component(Renderer_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH ${Renderer_CMAKE_DIR})
+
+find_dependency(GL REQUIRED)
+find_dependency(GLU REQUIRED)
+find_dependency(GLEW REQUIRED)
+find_dependency(assimp REQUIRED)
+#find_package(Boost 1.55 REQUIRED COMPONENTS regex)
+#find_package(RapidJSON 1.0 REQUIRED MODULE)
+
+list(REMOVE_AT CMAKE_MODULE_PATH -1)
+
+if(NOT TARGET Gamenge::Renderer)
+    include("${Renderer_CMAKE_DIR}/RendererTargets.cmake")
+endif()
+
+set(Renderer_LIBRARIES Gamenge::Renderer)
