@@ -1,5 +1,5 @@
 build/*
-~build/.empty
+!build/.empty
 *.sublime-project
 *.sublime-workspace
 doc/*
