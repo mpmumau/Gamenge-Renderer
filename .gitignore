@@ -2,3 +2,6 @@ build
 build/*
 *.sublime-project
 *.sublime-workspace
+doc/*
+!doc/.empty
+Doxyfile

@@ -1,6 +1,7 @@
 # Gamenge::Renderer
 
 **Author:** Matthew Mumau <mpmumau@gmail.com>  
+**Created:** March 24, 2018  
 **License:** MIT License (see LICENSE file for more information)
 
 ## Project Overview
@@ -50,3 +51,7 @@ You must add OpenGL shaders, mesh objects and texture objects to the renderer pr
 ## More Information
 
 Consult the documents in the `docs` folder for detailed information about the use of the above functions, and more.
+
+## License
+
+This project is released under the MIT license. 

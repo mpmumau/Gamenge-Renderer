@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(renderer VERSION 0.1.0 LANGUAGES CXX)
+set(VERSION_MAJOR   0   CACHE STRING "Project major version number.")
+set(VERSION_MINOR   1   CACHE STRING "Project minor version number.")
+set(VERSION_PATCH   0   CACHE STRING "Project patch version number.")
+mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
+
+project(renderer VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH} LANGUAGES CXX)
 
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
@@ -55,7 +60,7 @@ install(TARGETS renderer
 
 set_target_properties(renderer PROPERTIES EXPORT_NAME Renderer)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY source/inc DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT renderer-targets
     FILE
@@ -90,5 +95,27 @@ export(EXPORT renderer-targets
 )
 
 export(PACKAGE Renderer)
+
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
+
+if(BUILD_DOCUMENTATION)
+    if(NOT DOXYGEN_FOUND)
+        message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    endif()
+
+    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(doxyfile ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+
+    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+    add_custom_target(doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc/html DESTINATION share/doc/gamenge/renderer)
+endif()
 
 #add_subdirectory(test)
