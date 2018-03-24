@@ -59,7 +59,7 @@ void Renderer::render()
     GLuint u_MVPMatrix, u_ModelMatrix, u_ViewMatrix, u_ProjectionMatrix;
     GLuint u_TextureSampler, u_LightPosition;
     glm::mat4 MVPMatrix, modelMatrix, viewMatrix, projectionMatrix;
-    glm::vec3 lightPosition = glm::vec3(0, 0, 0); // tmp; what to do with this...
+    //glm::vec3 lightPosition = glm::vec3(0, 0, 0); // tmp; what to do with this...
 
     projectionMatrix = getProjectionMatrix();
     viewMatrix = getViewMatrix();
