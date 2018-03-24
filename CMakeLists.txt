@@ -118,4 +118,7 @@ if(BUILD_DOCUMENTATION)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc/html DESTINATION share/doc/gamenge/renderer)
 endif()
 
+enable_testing()
+add_subdirectory(test)
+
 #add_subdirectory(test)
