@@ -3,7 +3,6 @@
 
 /* Library headers */
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 /* Application headers */
 #include <gamenge/common/common.hpp>
@@ -15,6 +14,7 @@ namespace Gamenge {
     class ShaderData
     {
     public:
+        ShaderData();
         ShaderData(Path, Path);
         ~ShaderData();
 

@@ -3,7 +3,6 @@
 #include <string>
 
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 /* Application headers */
 #include <gamenge/common/common.hpp>
@@ -12,6 +11,8 @@
 #include <gamenge/renderer/shader_data.hpp>
 
 using namespace Gamenge;
+
+ShaderData::ShaderData() {}
 
 ShaderData::ShaderData(Path vertFile, Path fragFile)
 {
@@ -47,7 +48,7 @@ void ShaderData::loadProgram(Path vertFile, Path fragFile)
 
     glLinkProgram(programID);
 
-    GLboolean success;
+    GLint success;
     glGetProgramiv(programID, GL_LINK_STATUS, &success);
     if (success != GL_TRUE) {
         // Todo: Throw an exception. GL shader program could not be linked.
@@ -81,7 +82,7 @@ GLuint ShaderData::compileShader(Path file, GLenum type)
     glShaderSource(shader, 1, source, NULL);
     glCompileShader(shader);
 
-    GLboolean success;
+    GLint success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (success != GL_TRUE) {
         // Todo: Throw exception. OpenGL could not create shader with source.

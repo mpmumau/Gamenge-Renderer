@@ -3,7 +3,6 @@
 
 /* Library headers */
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 #include <glm/glm.hpp>
 
@@ -38,9 +37,9 @@ namespace Gamenge {
         glm::vec3 getRotation();
         glm::vec3 getScale();
 
-        unsigned int getShaderDataID();
-        unsigned int getMeshDataID();
-        unsigned int getTextureDataID();
+        GID getShaderDataID();
+        GID getMeshDataID();
+        GID getTextureDataID();
     private:
         glm::vec3 translation, rotation, scale;
         GID shaderDataID, meshDataID, textureDataID;

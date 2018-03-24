@@ -1,6 +1,5 @@
 /* Library Headers */
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

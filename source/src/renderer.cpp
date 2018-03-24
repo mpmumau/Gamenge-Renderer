@@ -2,7 +2,6 @@
 #include <map>
 
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -17,7 +16,7 @@
 #include <gamenge/renderer/texture_data.hpp>
 
 /* Self header */
-#include <gamenge/renderer/renderer.h>
+#include <gamenge/renderer/renderer.hpp>
 
 using namespace Gamenge;
 
@@ -160,7 +159,7 @@ GID Renderer::addRenderable(GID shaderID, GID meshID, GID textureID)
     }
 
     GID renderableID = nextRenderable;
-    renderables.emplace(renderableID, shaderID, meshID, textureID);
+    renderables[renderableID] = Renderable(shaderID, meshID, textureID);
     setNextRenderable();
     return renderableID;
 }
@@ -168,7 +167,7 @@ GID Renderer::addRenderable(GID shaderID, GID meshID, GID textureID)
 GID Renderer::addShader(Path vertFile, Path fragFile)
 {
     GID shaderID = nextShader;
-    shaders.emplace(shaderID, vertFile, fragFile);
+    shaders[shaderID] = ShaderData(vertFile, fragFile);
     setNextShader();
     return shaderID;
 }
@@ -176,15 +175,15 @@ GID Renderer::addShader(Path vertFile, Path fragFile)
 /* TODO: Move this to the MeshData class */
 GID Renderer::addMesh(Path meshFile) {
     GID meshID = nextMesh;
-    meshes.emplace(meshID, meshFile);
+    meshes[meshID] = MeshData(meshFile);
     setNextMesh();
     return meshID;
 }
 
-void Renderer::addTexture(Path textureFile)
+GID Renderer::addTexture(Path textureFile)
 {
     GID textureID = nextTexture;
-    textures.emplace(textureID, textureFile);
+    textures[textureID] = TextureData(textureFile);
     setNextTexture();
     return textureID;
 }
@@ -192,7 +191,7 @@ void Renderer::addTexture(Path textureFile)
 GID Renderer::addCamera()
 {
     GID cameraID = nextCamera;
-    cameras.emplace(cameraID);
+    cameras[cameraID] = Camera();
     setNextCamera();
     return cameraID;
 }

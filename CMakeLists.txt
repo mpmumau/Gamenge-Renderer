@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(renderer VERSION 0.1.0 LANGUAGES CXX)
 
-find_package(GL REQUIRED)
-find_package(GLU REQUIRED)
+find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(assimp REQUIRED)
 
@@ -12,37 +11,41 @@ add_library(renderer
     ${CMAKE_CURRENT_SOURCE_DIR}/source/src/mesh_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/src/renderable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/src/renderer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/source/src/shader_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/source/src/shader_data.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/source/src/texture_data.cpp
 )
 
 add_library(Gamenge::Renderer ALIAS renderer)
 
-target_include_directories(gamenge_renderer
-    PUBLIC:
+target_include_directories(renderer
+    PUBLIC
         $<INSTALL_INTERFACE:source/inc>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/source/inc>
+        ${OPENGL_INCLUDE_DIRS}
+        ${GLEW_INCLUDE_DIRS}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/source/src
+        ${assimp_INCLUDE_DIRS}
 )
 
-target_compile_options(renderer 
+target_compile_options(renderer
     PRIVATE 
         $<$<CXX_COMPILER_ID:GNU>:-Wall>
 )
 
 target_link_libraries(renderer
     PUBLIC
-        GL::GL
-        GLU::GLU
-        GLEW::GLEW
-        assimp::assimp
+        OpenGL::GL
+        ${GLEW_LIBRARIES}
+        ${assimp_LIBRARIES}
     PRIVATE
         # Boost::???
 )
 
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/Renderer)
+
+list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
 
 install(TARGETS renderer
     EXPORT renderer-targets

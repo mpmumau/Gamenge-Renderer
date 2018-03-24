@@ -1,6 +1,5 @@
 /* Library headers */
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 #include <glm/glm.hpp>
 
@@ -53,17 +52,17 @@ void Renderable::setRotation(glm::vec3 rotation)
 
 void Renderable::setXRotation(GLfloat rotation)
 {
-    rotation.x = rotation;
+    this->rotation.x = rotation;
 }
 
 void Renderable::setYRotation(GLfloat rotation)
 {
-    rotation.y = rotation;
+    this->rotation.y = rotation;
 }
 
 void Renderable::setZRotation(GLfloat rotation)
 {
-    rotation.z = rotation;
+    this->rotation.z = rotation;
 }
 
 void Renderable::setScale(glm::vec3 scale)
@@ -73,17 +72,17 @@ void Renderable::setScale(glm::vec3 scale)
 
 void Renderable::setXScale(GLfloat scale)
 {
-    scale.x = scale;
+    this->scale.x = scale;
 }
 
 void Renderable::setYScale(GLfloat scale)
 {
-    scale.y = scale;
+    this->scale.y = scale;
 }
 
 void Renderable::setZScale(GLfloat scale)
 {
-    scale.z = scale;
+    this->scale.z = scale;
 }
 
 glm::vec3 Renderable::getTranslation()
@@ -101,17 +100,17 @@ glm::vec3 Renderable::getScale()
     return scale;
 }
 
-unsigned int Renderable::getShaderDataID()
+GID Renderable::getShaderDataID()
 {
     return shaderDataID;
 }
 
-unsigned int Renderable::getMeshDataID()
+GID Renderable::getMeshDataID()
 {
     return meshDataID;
 }
 
-unsigned int *Renderable::getTextureData()
+GID Renderable::getTextureDataID()
 {
     return textureDataID;
 }
@@ -122,7 +121,7 @@ void Renderable::setDefaults()
     rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     scale = glm::vec3(1.0f);
 
-    shaderData = 0;
-    meshData = 0;
-    textureData = 0;
+    shaderDataID = 0;
+    meshDataID = 0;
+    textureDataID = 0;
 }

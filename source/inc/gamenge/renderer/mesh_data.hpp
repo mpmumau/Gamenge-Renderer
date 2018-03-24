@@ -2,7 +2,6 @@
 #define GAMENGE_RENDERER_MESH_DATA_H
 
 #include <GL/glew.h>
-#include <GL/glu.h>
 
 /* Application headers */
 #include <gamenge/common/common.hpp>

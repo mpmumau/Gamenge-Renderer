@@ -3,8 +3,7 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${Renderer_CMAKE_DIR})
 
-find_dependency(GL REQUIRED)
-find_dependency(GLU REQUIRED)
+find_dependency(OpenGL REQUIRED)
 find_dependency(GLEW REQUIRED)
 find_dependency(assimp REQUIRED)
 #find_package(Boost 1.55 REQUIRED COMPONENTS regex)
