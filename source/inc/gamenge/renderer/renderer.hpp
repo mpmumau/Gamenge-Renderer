@@ -126,17 +126,49 @@ namespace Gamenge {
          */
         GID addTexture(Path, bool);
 
-        
+        /**
+         * @brief  Adds a new camera.
+         *
+         * @return  A GID representing the newly created camera object.
+         */
         GID addCamera();
 
+        /**
+         * @brief  Gets a pointer to the given renderable.
+         *
+         * @param[in]  rid  The GID of the renderable.
+         *
+         * @return  A pointer to the renderable.
+         */
         Renderable *getRenderable(GID);
+
+        /**
+         * @brief  Gets a pointer to the given camera.
+         *
+         * @param[in]  cameraID  The GID of the camera.
+         *
+         * @return  A pointer to the camera.
+         */
         Camera *getCamera(GID);
 
+        /**
+         * @brief  Sets the active rendering camera to the given camera.
+         *
+         * @param[in]  cameraID  The camera to set to the active camera.
+         */
         void setActiveCamera(GID);
+
+        /**
+         * @brief  Gets the GID of the active camera.
+         *
+         * @return  The GID of the active camera.
+         */
         GID getActiveCamera();
 
+        /**
+         * @brief  Destroys the renderer object, releasing all resources.
+         */
         void destroy();
-
     private:
         std::map<GID, Renderable> renderables;
         std::map<GID, ShaderData> shaders;
