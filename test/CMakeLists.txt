@@ -31,6 +31,8 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
     EXCLUDE_FROM_ALL
 )
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+
 add_executable(renderer_test
     src/camera_test.cpp
     src/texture_data_test.cpp
@@ -39,8 +41,6 @@ add_executable(renderer_test
     src/renderer_test.cpp
     src/main_test.cpp
 )
-
-# target_compile_features(renderer_test PRIVATE cxx_auto_type)
 
 target_link_libraries(renderer_test 
     gmock_main 
@@ -59,3 +59,18 @@ target_include_directories(renderer_test
 )
 
 add_test(NAME renderer_test COMMAND renderer_test)
+
+# set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+# if(CMAKE_COMPILER_IS_GNUCXX)
+#     include(CodeCoverage)
+#     APPEND_COVERAGE_COMPILER_FLAGS()
+#     # set(COVERAGE_EXCLUDES 
+#     #     '*/build/googletest-src/googletest/include/gtest/internal/*' 
+#     #     '*/build/googletest-src/googletest/include/gtest/*'
+#     #     '/usr/include/glm/detail/*'
+#     #     '/usr/include/c++/7.3.1/*'
+#     #     '/usr/include/c++/7.3.1/bits/*'
+#     #     '/usr/include/c++/7.3.1/ext/*'
+#     # )
+#     setup_target_for_coverage(NAME ${PROJECT_NAME}_coverage EXECUTABLE renderer_test DEPENDENCIES renderer_test)
+# endif()

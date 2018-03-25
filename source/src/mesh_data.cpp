@@ -50,7 +50,7 @@ unsigned int MeshData::getNumNormals()
     return numNormals;
 }
 
-unsigned int MeshData::getNumUvs()
+unsigned int MeshData::getNumUVs()
 {
     return numUvs;
 }
@@ -163,7 +163,7 @@ void MeshData::bind()
 
     glGenBuffers(1, &glUVBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, this->getUVBuffer());
-    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->getNumUvs(), uvs, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->getNumUVs(), uvs, GL_STATIC_DRAW);
 
     glGenBuffers(1, &glNormalBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, this->getNormalBuffer());

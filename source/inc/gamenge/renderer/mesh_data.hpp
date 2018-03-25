@@ -57,7 +57,7 @@ namespace Gamenge {
          *
          * @return  The number of UV floats.
          */
-        unsigned int getNumUvs();
+        unsigned int getNumUVs();
 
         /**
          * @brief  Get the number of index ints in the mesh data.
