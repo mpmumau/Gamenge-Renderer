@@ -14,17 +14,24 @@ namespace Gamenge {
     class ShaderData
     {
     public:
-        ShaderData();
         ShaderData(Path, Path);
+        ShaderData(Path, Path, bool);
         ~ShaderData();
 
+        void link();
         GLuint getProgram();
+        const GLchar *getVertexSource();
+        const GLchar *getFragmentSource();
         void destroy();
     private:
         GLuint programID;
+        const GLchar *vertexSource;
+        const GLchar *fragSource;
 
-        void loadProgram(Path, Path);
-        GLuint compileShader(Path, GLenum);
+        void init();
+        void load(Path, Path);
+        void load(Path, Path, bool);
+        const GLchar *parseSource(Path);
     };
 
 } // end namespace Gamenge

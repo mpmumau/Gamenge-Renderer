@@ -15,16 +15,22 @@ namespace Gamenge {
     class TextureData
     {
     public:
-        TextureData();
         TextureData(Path);
+        TextureData(Path, bool);
+        ~TextureData();
+
+        void bind();
 
         GLuint getTextureBuffer();
         unsigned long long int getNumPixels();
     private:
         GLuint textureBufferID;
         unsigned long long int numPixels;
+        unsigned char *data;
+        unsigned int imageWidth, imageHeight;
 
-        void loadBitmap(Path);
+        void init();
+        void load(Path, bool);
     };
 
 } // end namespace Gamenge

@@ -1,0 +1,91 @@
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <stdexcept>
+
+#include <gamenge/renderer/renderer.hpp>
+
+TEST(RendererTest, constructor)
+{
+    Renderer renderer;
+
+    Renderable *renderable = renderer.getRenderable(23);
+    EXPECT_EQ(NULL, renderable);
+
+    Camera *camera = renderer.getCamera(123);
+    EXPECT_EQ(NULL, camera);
+
+    EXPECT_EQ(0, renderer.getActiveCamera());
+}
+
+TEST(RendererTest, addRenderableWorks)
+{
+
+}
+
+TEST(RendererTest, addShaderExceptions)
+{
+    Renderer renderer;
+
+    EXPECT_THROW(renderer.addShader(NULL, NULL, false), std::invalid_argument);
+    EXPECT_THROW(renderer.addShader("", "", false), std::invalid_argument);
+    EXPECT_THROW(renderer.addShader("abc123xyz", "", false), std::runtime_error);
+    EXPECT_THROW(renderer.addShader("", "xyz123abc", false), std::invalid_argument);
+    EXPECT_THROW(renderer.addShader("xyz123abc", "abc123xyz", false), std::runtime_error);
+}
+
+TEST(RendererTest, addMeshExceptions)
+{
+    Renderer renderer;
+
+    EXPECT_THROW(renderer.addMesh("", false), std::invalid_argument);
+    EXPECT_THROW(renderer.addMesh("xyz123abc", false), std::runtime_error);
+}
+
+TEST(RendererTest, addTextureExceptions)
+{
+    Renderer renderer;
+
+    EXPECT_THROW(renderer.addTexture("", false), std::invalid_argument);
+    EXPECT_THROW(renderer.addTexture("xyz123abc", false), std::runtime_error);
+}
+
+TEST(RendererTest, addCamera)
+{
+    Renderer renderer;
+
+    GID cameraID = renderer.addCamera();
+    EXPECT_TRUE(cameraID != 0);
+
+    Camera *camera = renderer.getCamera(cameraID);
+    EXPECT_TRUE(camera != NULL);
+}
+
+TEST(RendererTest, getRenderable)
+{
+    Renderer renderer;
+
+    Renderable *renderable;
+
+    renderable = renderer.getRenderable(123);
+    EXPECT_TRUE(renderable == NULL);
+}
+
+TEST(RendererTest, getCamera)
+{
+    Renderer renderer;
+
+    Camera *camera;
+
+    camera = renderer.getCamera(123);
+    EXPECT_TRUE(camera == NULL);
+}
+
+TEST(RendererTest, setActiveCamera)
+{
+    Renderer renderer;
+
+    GID camera = renderer.addCamera();
+    renderer.setActiveCamera(camera);
+
+    EXPECT_EQ(camera, renderer.getActiveCamera());
+}

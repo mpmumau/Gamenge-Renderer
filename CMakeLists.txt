@@ -30,7 +30,7 @@ target_include_directories(renderer
         ${GLEW_INCLUDE_DIRS}
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/source/src
-        ${assimp_INCLUDE_DIRS}
+        ${ASSIMP_INCLUDE_DIRS}
 )
 
 target_compile_options(renderer
@@ -98,7 +98,6 @@ export(PACKAGE Renderer)
 
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
-
 if(BUILD_DOCUMENTATION)
     if(NOT DOXYGEN_FOUND)
         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
@@ -115,10 +114,8 @@ if(BUILD_DOCUMENTATION)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc/html DESTINATION share/doc/gamenge/renderer)
+    # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc/html DESTINATION share/doc/gamenge/renderer)
 endif()
 
 enable_testing()
 add_subdirectory(test)
-
-#add_subdirectory(test)

@@ -1,5 +1,7 @@
 /* Library headers */
 #include <map>
+#include <stdexcept>
+#include <stdio.h>
 
 #include <GL/glew.h>
 
@@ -20,7 +22,7 @@
 
 using namespace Gamenge;
 
-void Renderer::init()
+Renderer::Renderer()
 {
     renderables.clear();
     shaders.clear();
@@ -35,7 +37,10 @@ void Renderer::init()
     nextMesh = 1;
     nextTexture = 1;
     nextCamera = 1;
+}
 
+void Renderer::init()
+{
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -75,7 +80,12 @@ void Renderer::render()
         if (shaders.count(renderable->getShaderDataID()) == 0) {
             continue;
         }
-        shaderData = &(shaders[renderable->getShaderDataID()]);
+
+        try {
+            shaderData = &(shaders.at(renderable->getShaderDataID()));
+        } catch (const std::out_of_range& e) {
+            throw e;
+        }
 
         programID = shaderData->getProgram();
 
@@ -108,7 +118,13 @@ void Renderer::render()
         if (textures.count(renderable->getTextureDataID()) == 0) {
             continue;
         }
-        textureData = &(textures[renderable->getTextureDataID()]);
+
+        try {
+            textureData = &(textures.at(renderable->getTextureDataID()));
+        } catch (const std::out_of_range& e) {
+            throw e;
+        }
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureData->getTextureBuffer());
         glUniform1i(u_TextureSampler, 0);
@@ -116,7 +132,12 @@ void Renderer::render()
         if (meshes.count(renderable->getMeshDataID()) == 0) {
             continue;
         }
-        meshData = &(meshes[renderable->getMeshDataID()]);
+
+        try {
+            meshData = &(meshes.at(renderable->getMeshDataID()));
+        } catch (const std::out_of_range& e) {
+            throw e;
+        }
 
         // Vertices
         glEnableVertexAttribArray(0);
@@ -166,24 +187,82 @@ GID Renderer::addRenderable(GID shaderID, GID meshID, GID textureID)
 
 GID Renderer::addShader(Path vertFile, Path fragFile)
 {
+    try {
+        return addShader(vertFile, fragFile, true);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+}
+
+GID Renderer::addShader(Path vertFile, Path fragFile, bool shouldLink)
+{
     GID shaderID = nextShader;
-    shaders[shaderID] = ShaderData(vertFile, fragFile);
+
+    try {
+        ShaderData shaderData = ShaderData(vertFile, fragFile, shouldLink);
+        shaders.emplace(shaderID, shaderData);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+
     setNextShader();
     return shaderID;
 }
 
-/* TODO: Move this to the MeshData class */
 GID Renderer::addMesh(Path meshFile) {
+    try {
+        return addMesh(meshFile, true);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+}
+
+GID Renderer::addMesh(Path meshFile, bool shouldBind) {
     GID meshID = nextMesh;
-    meshes[meshID] = MeshData(meshFile);
+
+    try {
+        MeshData meshData = MeshData(meshFile, shouldBind);
+        meshes.emplace(meshID, meshData);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+
     setNextMesh();
     return meshID;
 }
 
 GID Renderer::addTexture(Path textureFile)
 {
+    try {
+        return addTexture(textureFile, true);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+}
+
+GID Renderer::addTexture(Path textureFile, bool shouldBind)
+{
     GID textureID = nextTexture;
-    textures[textureID] = TextureData(textureFile);
+
+    try {
+        TextureData textureData = TextureData(textureFile, shouldBind);
+        textures.emplace(textureID, textureData);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+
     setNextTexture();
     return textureID;
 }

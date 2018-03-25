@@ -1,6 +1,6 @@
 /* Library Headers */
+#include <stdexcept>
 #include <GL/glew.h>
-
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -14,15 +14,30 @@
 
 using namespace Gamenge;
 
-MeshData::MeshData()
-{
-    setDefaults();
-}
-
 MeshData::MeshData(Path meshFile)
 {
     setDefaults();
-    loadFromFile(meshFile);
+
+    try {
+        load(meshFile, true);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
+}
+
+MeshData::MeshData(Path meshFile, bool shouldBind)
+{
+    setDefaults();
+
+    try {
+        load(meshFile, shouldBind);
+    } catch (const std::invalid_argument& e) {
+        throw e;
+    } catch(const std::runtime_error& e) {
+        throw e;
+    }
 }
 
 unsigned int MeshData::getNumVertices()
@@ -65,18 +80,29 @@ GLuint MeshData::getIndexBuffer()
     return glIndexBufferID;
 }
 
-void MeshData::loadFromFile(Path meshFile)
+void MeshData::load(Path meshFile, bool shouldBind)
 {
+    if (meshFile == NULL) {
+        throw std::invalid_argument("Supplied file path was null.");
+    }
+
+    if (strlen(meshFile) == 0) {
+        throw std::invalid_argument("Supplied file path was an empty string.");
+    }
+
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(meshFile, 0);
-    if (!scene || scene->mNumMeshes < 1) {
-        // Todo: Throw an exception. Mesh file contains no meshes.
-        exit(1);
+
+    if (scene == NULL) {
+        throw std::runtime_error(importer.GetErrorString());
+    }
+
+    if (scene->mNumMeshes < 1) {
+        throw std::invalid_argument("Imported mesh file contained zero meshes.");
     }
 
     aiMesh *mesh = scene->mMeshes[0];
 
-    GLfloat *vertices = NULL;
     if (mesh->HasPositions()) {
         vertices = new GLfloat[mesh->mNumVertices * 3];
         for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
@@ -88,7 +114,6 @@ void MeshData::loadFromFile(Path meshFile)
         }
     }
 
-    GLfloat *normals = NULL;
     if (mesh->HasNormals()) {
         normals = new GLfloat[mesh->mNumVertices * 3];
         for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
@@ -100,7 +125,6 @@ void MeshData::loadFromFile(Path meshFile)
         }
     }
 
-    GLfloat *uvs = NULL;
     if (mesh->HasTextureCoords(0)) {
         uvs = new GLfloat[mesh->mNumVertices * 2];
         for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
@@ -111,7 +135,6 @@ void MeshData::loadFromFile(Path meshFile)
         }
     }
 
-    unsigned int *indices = NULL;
     if (mesh->HasFaces()) {
         indices = new unsigned int[mesh->mNumFaces * 3];
         for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
@@ -123,6 +146,13 @@ void MeshData::loadFromFile(Path meshFile)
         }
     }
 
+    if (shouldBind) {
+        bind();
+    }
+}
+
+void MeshData::bind()
+{
     glGenBuffers(1, &glVertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, this->getVertexBuffer());
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->getNumVertices(), vertices, GL_STATIC_DRAW);
@@ -154,4 +184,9 @@ void MeshData::setDefaults()
     glNormalBufferID = 0;
     glUVBufferID = 0;
     glIndexBufferID = 0;
+
+    vertices = NULL;
+    normals = NULL;
+    uvs = NULL;
+    indices = NULL;
 }

@@ -12,8 +12,10 @@ namespace Gamenge {
 
     class MeshData {
     public:
-        MeshData();
         MeshData(Path);
+        MeshData(Path, bool);
+
+        void bind();
 
         unsigned int getNumVertices();
         unsigned int getNumNormals();
@@ -28,7 +30,12 @@ namespace Gamenge {
         unsigned int numVertices, numNormals, numUvs, numIndices;
         GLuint glVertexBufferID, glNormalBufferID, glUVBufferID, glIndexBufferID;
 
-        void loadFromFile(Path);
+        GLfloat *vertices;
+        GLfloat *normals;
+        GLfloat *uvs;
+        unsigned int *indices;
+
+        void load(Path, bool);
         void setDefaults();
     };
 
