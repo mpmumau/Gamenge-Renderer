@@ -14,19 +14,69 @@ namespace Gamenge {
     class ShaderData
     {
     public:
+        /**
+         * @brief  Construct a shader, and immediately load into OpenGL.
+         *
+         * @param[in]  vertFile  A vertex shader source code file path.
+         * @param[in]  fragFile  A fragment shader source code file path.
+         * 
+         * @throw  std::invalid_argument  If the paths given are null or empty.
+         * @throw  std::runtime_error  If there was an error loading the files, or with OpenGL calls.
+         */
         ShaderData(Path, Path);
+
+        /**
+         * @brief  Construct a shader, and, optionally, immediately load into OpenGL
+         *
+         * @param[in]  vertFile  A vertex shader source code file path.
+         * @param[in]  fragFile  A fragment shader source code file path.
+         * @param[in]  shouldLink  Whether or not to immediately load and link the program in OpenGL.
+         * 
+         * @throw  std::invalid_argument  If the paths given are null or empty.
+         * @throw  std::runtime_error  If there was an error loading the files, or with OpenGL calls.
+         */
         ShaderData(Path, Path, bool);
+
+        /**
+         * @brief  Destroys the object, releasing the OpenGL program loaded in the process.
+         */
         ~ShaderData();
 
+        /**
+         * @brief  Load and link the program in OpenGL, if it has not already done so.
+         */
         void link();
+
+        /**
+         * @brief  Get the OpenGL program ID for the shader.
+         *
+         * @return  The OpenGL program ID.
+         */
         GLuint getProgram();
+
+        /**
+         * @brief  Gets the vertex shader source.
+         *
+         * @return  The vertex shader source.
+         */
         const GLchar *getVertexSource();
+
+        /**
+         * @brief      Gets the fragment shader source.
+         *
+         * @return     The fragment shader source.
+         */
         const GLchar *getFragmentSource();
+
+        /**
+         * @brief  Destroy the shader's OpenGL program.
+         */
         void destroy();
     private:
         GLuint programID;
         const GLchar *vertexSource;
         const GLchar *fragSource;
+        bool hasLinked;
 
         void init();
         void load(Path, Path);

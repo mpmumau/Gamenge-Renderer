@@ -46,6 +46,10 @@ ShaderData::~ShaderData()
 
 void ShaderData::link()
 {
+    if (hasLinked) {
+        return;
+    }
+
     GLint success;
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -75,6 +79,8 @@ void ShaderData::link()
     if (success != GL_TRUE) {
         throw std::runtime_error("OpenGL could not link the shader program.");
     }
+
+    hasLinked = true;
 }
 
 GLuint ShaderData::getProgram()
@@ -104,6 +110,7 @@ void ShaderData::init()
     programID = 0;
     vertexSource = NULL;
     fragSource = NULL;
+    hasLinked = false;
 }
 
 void ShaderData::load(Path vertFile, Path fragFile)

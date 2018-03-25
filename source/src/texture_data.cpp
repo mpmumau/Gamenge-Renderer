@@ -44,6 +44,10 @@ TextureData::~TextureData()
 
 void TextureData::bind()
 {
+    if (isBound) {
+        return;
+    }
+
     glLogicOp(GL_COPY_INVERTED);
     glEnable(GL_COLOR_LOGIC_OP);
 
@@ -65,6 +69,8 @@ void TextureData::bind()
 
     // trilinear filtering requires mipmaps
     glGenerateMipmap(GL_TEXTURE_2D);
+
+    isBound = true;
 }
 
 GLuint TextureData::getTextureBuffer()

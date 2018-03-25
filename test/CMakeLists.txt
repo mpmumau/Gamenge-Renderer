@@ -31,7 +31,11 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
     EXCLUDE_FROM_ALL
 )
 
-add_executable(renderer_test 
+add_executable(renderer_test
+    src/camera_test.cpp
+    src/texture_data_test.cpp
+    src/mesh_data_test.cpp
+    src/shader_data_test.cpp
     src/renderer_test.cpp
     src/main_test.cpp
 )

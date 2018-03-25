@@ -153,6 +153,10 @@ void MeshData::load(Path meshFile, bool shouldBind)
 
 void MeshData::bind()
 {
+    if (isBound) {
+        return;
+    }
+
     glGenBuffers(1, &glVertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, this->getVertexBuffer());
     glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * this->getNumVertices(), vertices, GL_STATIC_DRAW);
@@ -171,6 +175,8 @@ void MeshData::bind()
     delete[] normals;
     delete[] uvs;
     delete[] indices;
+
+    isBound = true;
 }
 
 void MeshData::setDefaults()

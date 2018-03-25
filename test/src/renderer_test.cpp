@@ -17,11 +17,6 @@ TEST(RendererTest, constructor)
     EXPECT_EQ(0, renderer.getActiveCamera());
 }
 
-TEST(RendererTest, addRenderableWorks)
-{
-
-}
-
 TEST(RendererTest, addShaderExceptions)
 {
     Renderer renderer;
