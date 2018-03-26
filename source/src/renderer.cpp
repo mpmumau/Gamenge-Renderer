@@ -61,10 +61,8 @@ void Renderer::render()
     TextureData *textureData;
     MeshData *meshData;
 
-    GLuint u_MVPMatrix, u_ModelMatrix, u_ViewMatrix, u_ProjectionMatrix;
-    GLuint u_TextureSampler, u_LightPosition;
+    GLuint u_MVPMatrix, u_ModelMatrix, u_ViewMatrix, u_ProjectionMatrix, u_TextureSampler, u_LightPosition;
     glm::mat4 MVPMatrix, modelMatrix, viewMatrix, projectionMatrix;
-    //glm::vec3 lightPosition = glm::vec3(0, 0, 0); // tmp; what to do with this...
 
     projectionMatrix = getProjectionMatrix();
     viewMatrix = getViewMatrix();
@@ -80,16 +78,25 @@ void Renderer::render()
         if (shaders.count(renderable->getShader()) == 0) {
             continue;
         }
+        shaderData = &(shaders.at(renderable->getShader()));
 
-        try {
-            shaderData = &(shaders.at(renderable->getShader()));
-        } catch (const std::out_of_range& e) {
-            throw e;
+        if (textures.count(renderable->getTexture()) == 0) {
+            continue;
         }
+        textureData = &(textures.at(renderable->getTexture()));
+
+        if (meshes.count(renderable->getMesh()) == 0) {
+            continue;
+        }
+        meshData = &(meshes.at(renderable->getMesh()));
 
         programID = shaderData->getProgram();
+        glUseProgram(programID);
 
         /* Calculate and bind matrices */
+        modelMatrix = getModelMatrix(renderable);
+        MVPMatrix = getMVPMatrix(modelMatrix, viewMatrix, projectionMatrix);
+
         u_MVPMatrix = glGetUniformLocation(programID, "MVP");
         u_ModelMatrix = glGetUniformLocation(programID, "ModelMatrix");
         u_ViewMatrix = glGetUniformLocation(programID, "ViewMatrix");
@@ -97,47 +104,15 @@ void Renderer::render()
         u_TextureSampler = glGetUniformLocation(programID, "TexSampler");
         u_LightPosition = glGetUniformLocation(programID, "LightPosition");
 
-        modelMatrix = getModelMatrix(renderable);
-        MVPMatrix = getMVPMatrix(modelMatrix, viewMatrix, projectionMatrix);
-
         glUniformMatrix4fv(u_ProjectionMatrix, 1, GL_FALSE, &projectionMatrix[0][0]);
         glUniformMatrix4fv(u_ViewMatrix, 1, GL_FALSE, &viewMatrix[0][0]);
         glUniformMatrix4fv(u_ModelMatrix, 1, GL_FALSE, &modelMatrix[0][0]);
         glUniformMatrix4fv(u_MVPMatrix, 1, GL_FALSE, &MVPMatrix[0][0]);
-
-        glUniform3f(u_LightPosition, 
-            renderable->getTranslation().x + 2.0f, 
-            renderable->getTranslation().y + 4.0f, 
-            renderable->getTranslation().z + 2.0f
-        );
-        // glUniform3f(u_LightPosition, 0.0f, 0.0f, 0.0f);
-
-        glUseProgram(programID);
-
-        // Texture
-        if (textures.count(renderable->getTexture()) == 0) {
-            continue;
-        }
-
-        try {
-            textureData = &(textures.at(renderable->getTexture()));
-        } catch (const std::out_of_range& e) {
-            throw e;
-        }
+        glUniform3f(u_LightPosition, 0.0f, 0.0f, 0.0f);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureData->getTextureBuffer());
         glUniform1i(u_TextureSampler, 0);
-
-        if (meshes.count(renderable->getMesh()) == 0) {
-            continue;
-        }
-
-        try {
-            meshData = &(meshes.at(renderable->getMesh()));
-        } catch (const std::out_of_range& e) {
-            throw e;
-        }
 
         // Vertices
         glEnableVertexAttribArray(0);

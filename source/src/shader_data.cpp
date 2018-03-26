@@ -4,6 +4,7 @@
 #include <string.h>
 #include <GL/glew.h>
 #include <string>
+#include <stdio.h>
 
 /* Application headers */
 #include <gamenge/common/common.hpp>
@@ -18,7 +19,7 @@ ShaderData::ShaderData(Path vertFile, Path fragFile)
     init();
 
     try {
-        load(vertFile, fragFile, true);
+        load(vertFile, fragFile);
     } catch (const std::invalid_argument& e) {
         throw e;
     } catch(const std::runtime_error& e) {
@@ -53,7 +54,7 @@ void ShaderData::link()
     GLint success;
 
     const GLchar *vSource = (const GLchar *) vertexSource.c_str();
-    const GLchar *fSource = (const GLchar *) fragSource.c_str();
+    const GLchar *fSource =  (const GLchar *) fragSource.c_str();
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vSource, NULL);
@@ -61,6 +62,7 @@ void ShaderData::link()
 
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (success != GL_TRUE) {
+        glDeleteShader(vertexShader);
         throw std::runtime_error("OpenGL could not compile the vertex shader.");
     }
 
@@ -70,6 +72,7 @@ void ShaderData::link()
 
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (success != GL_TRUE) {
+        glDeleteShader(fragmentShader);
         throw std::runtime_error("OpenGL could not compile the fragment shader.");
     }
 
@@ -77,6 +80,8 @@ void ShaderData::link()
     glAttachShader(programID, vertexShader);
     glAttachShader(programID, fragmentShader);
     glLinkProgram(programID);
+
+    // Todo: Delete and detach shaders? Look it up...
 
     glGetProgramiv(programID, GL_LINK_STATUS, &success);
     if (success != GL_TRUE) {
