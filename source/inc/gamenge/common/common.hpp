@@ -2,9 +2,13 @@
 #define GAMENGE_RENDERER_COMMON_H
 
 namespace Gamenge {
-    /** @var A Gamenge ID value. */
+    /** 
+     * @typedef A Gamenge ID value.
+     */
     typedef unsigned long int GID;
-    /** @var A Gamenge-style file path. */
+    /** 
+     * @typedef A Gamenge-style file path. 
+     */
     typedef const char * Path;
 }
 
