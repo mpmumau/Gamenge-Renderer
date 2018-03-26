@@ -77,12 +77,12 @@ void Renderer::render()
     {
         renderable = &(r->second);
 
-        if (shaders.count(renderable->getShaderDataID()) == 0) {
+        if (shaders.count(renderable->getShader()) == 0) {
             continue;
         }
 
         try {
-            shaderData = &(shaders.at(renderable->getShaderDataID()));
+            shaderData = &(shaders.at(renderable->getShader()));
         } catch (const std::out_of_range& e) {
             throw e;
         }
@@ -115,12 +115,12 @@ void Renderer::render()
         glUseProgram(programID);
 
         // Texture
-        if (textures.count(renderable->getTextureDataID()) == 0) {
+        if (textures.count(renderable->getTexture()) == 0) {
             continue;
         }
 
         try {
-            textureData = &(textures.at(renderable->getTextureDataID()));
+            textureData = &(textures.at(renderable->getTexture()));
         } catch (const std::out_of_range& e) {
             throw e;
         }
@@ -129,12 +129,12 @@ void Renderer::render()
         glBindTexture(GL_TEXTURE_2D, textureData->getTextureBuffer());
         glUniform1i(u_TextureSampler, 0);
 
-        if (meshes.count(renderable->getMeshDataID()) == 0) {
+        if (meshes.count(renderable->getMesh()) == 0) {
             continue;
         }
 
         try {
-            meshData = &(meshes.at(renderable->getMeshDataID()));
+            meshData = &(meshes.at(renderable->getMesh()));
         } catch (const std::out_of_range& e) {
             throw e;
         }
@@ -162,27 +162,25 @@ void Renderer::render()
     }
 }
 
-GID Renderer::addRenderable(GID shaderID, GID meshID, GID textureID)
+GID Renderer::addRenderable(GID shader, GID mesh, GID texture)
 {
-    if (shaders.count(shaderID) == 0) {
-        // TODO: Throw an exception. Could not add renderable; No shader with given ID.
-        exit(1);
+    if (shaders.count(shader) == 0) {
+        throw std::invalid_argument("Shader does not exist.");
     }
 
-    if (meshes.count(meshID) == 0) {
-        // TODO: Throw an exception. Could not add renderable; No mesh with given ID.
-        exit(1);
+    if (meshes.count(mesh) == 0) {
+        throw std::invalid_argument("Mesh does not exist.");
     }
 
-    if (textures.count(textureID) == 0) {
-        // TODO: Throw an exception. Could not add renderable; No mesh with given ID.
-        exit(1);
+    if (textures.count(texture) == 0) {
+        throw std::invalid_argument("Texture does not exist.");
     }
 
-    GID renderableID = nextRenderable;
-    renderables[renderableID] = Renderable(shaderID, meshID, textureID);
+    GID renderable = nextRenderable;
+
+    renderables.emplace(renderable, Renderable(shader, mesh, texture));
     setNextRenderable();
-    return renderableID;
+    return renderable;
 }
 
 GID Renderer::addShader(Path vertFile, Path fragFile)
@@ -280,7 +278,11 @@ Renderable *Renderer::getRenderable(GID rid)
     if (renderables.count(rid) == 0) {
         return NULL;
     }
-    return &(renderables[rid]);
+    try {
+        return &(renderables.at(rid));
+    } catch(const std::out_of_range& e) {
+        throw e;
+    }
 }
 
 Camera *Renderer::getCamera(GID cameraID)
@@ -288,7 +290,12 @@ Camera *Renderer::getCamera(GID cameraID)
     if (cameras.count(cameraID) == 0) {
         return NULL;
     }
-    return &(cameras[cameraID]);
+    
+    try {
+        return &(cameras.at(cameraID));
+    } catch (const std::out_of_range& e) {
+        throw e;
+    }
 }
 
 void Renderer::setActiveCamera(GID cameraID)

@@ -52,8 +52,11 @@ void ShaderData::link()
 
     GLint success;
 
+    const GLchar *vSource = (const GLchar *) vertexSource.c_str();
+    const GLchar *fSource = (const GLchar *) fragSource.c_str();
+
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
+    glShaderSource(vertexShader, 1, &vSource, NULL);
     glCompileShader(vertexShader);
 
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -62,7 +65,7 @@ void ShaderData::link()
     }
 
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragSource, NULL);
+    glShaderSource(fragmentShader, 1, &fSource, NULL);
     glCompileShader(fragmentShader);
 
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -88,12 +91,12 @@ GLuint ShaderData::getProgram()
     return programID;
 }
 
-const GLchar *ShaderData::getVertexSource()
+std::string ShaderData::getVertexSource()
 {
     return vertexSource;
 }
 
-const GLchar *ShaderData::getFragmentSource()
+std::string ShaderData::getFragmentSource()
 {
     return fragSource;
 }
@@ -108,8 +111,8 @@ void ShaderData::destroy()
 void ShaderData::init()
 {
     programID = 0;
-    vertexSource = NULL;
-    fragSource = NULL;
+    vertexSource.clear();
+    fragSource.clear();
     hasLinked = false;
 }
 
@@ -144,7 +147,7 @@ void ShaderData::load(Path vertFile, Path fragFile, bool shouldLink)
     }
 }
 
-const GLchar *ShaderData::parseSource(Path file)
+std::string ShaderData::parseSource(Path file)
 {
     if (file == NULL) {
         throw std::invalid_argument("Supplied file path was null.");
@@ -154,19 +157,13 @@ const GLchar *ShaderData::parseSource(Path file)
         throw std::invalid_argument("Supplied file path was an empty string.");
     }
 
-    std::string src, tmp;
-    std::ifstream fs;
-    
-    fs.open(file);
+    std::ifstream fs(file);
     if (!fs) {
         throw std::runtime_error("Shader file could not be opened.");
     }
 
-    while (getline(fs, tmp)) {
-        src += tmp + "\n";
-    }
-
+    std::string src((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
     fs.close();
 
-    return (const GLchar *) src.c_str();
+    return src;
 }

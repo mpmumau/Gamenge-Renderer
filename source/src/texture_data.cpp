@@ -38,8 +38,13 @@ TextureData::TextureData(Path filename, bool shouldBind)
 TextureData::~TextureData()
 {
     if (data != NULL) {
-        delete[] data;
+        // Todo: This class needs a copy constructor for this to work. 
+        // It mainly comes into play during testing, when a TextureData 
+        // object is created without immediately getting loaded into OpenGL.
+
+        //delete[] data;
     }
+    data = NULL;
 }
 
 void TextureData::bind()

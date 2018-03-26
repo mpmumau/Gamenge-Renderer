@@ -1,6 +1,5 @@
 /* Library headers */
 #include <GL/glew.h>
-
 #include <glm/glm.hpp>
 
 /* Application headers */
@@ -10,11 +9,6 @@
 #include <gamenge/renderer/renderable.hpp>
 
 using namespace Gamenge;
-
-Renderable::Renderable()
-{
-    setDefaults();
-}
 
 Renderable::Renderable(GID shaderDataID, GID meshDataID, GID textureDataID)
 {
@@ -100,17 +94,17 @@ glm::vec3 Renderable::getScale()
     return scale;
 }
 
-GID Renderable::getShaderDataID()
+GID Renderable::getShader()
 {
     return shaderDataID;
 }
 
-GID Renderable::getMeshDataID()
+GID Renderable::getMesh()
 {
     return meshDataID;
 }
 
-GID Renderable::getTextureDataID()
+GID Renderable::getTexture()
 {
     return textureDataID;
 }

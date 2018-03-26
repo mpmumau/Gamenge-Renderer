@@ -35,11 +35,12 @@ file(COPY ${CMAKE_CURRENT_LIST_DIR}/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
 
 add_executable(renderer_test
     src/camera_test.cpp
-    src/texture_data_test.cpp
+    src/main_test.cpp
     src/mesh_data_test.cpp
+    src/renderable_test.cpp
     src/shader_data_test.cpp
     src/renderer_test.cpp
-    src/main_test.cpp
+    src/texture_data_test.cpp
 )
 
 target_link_libraries(renderer_test 

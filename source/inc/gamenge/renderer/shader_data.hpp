@@ -2,6 +2,7 @@
 #define GAMENGE_RENDERER_SHADER_DATA_H
 
 /* Library headers */
+#include <string>
 #include <GL/glew.h>
 
 /* Application headers */
@@ -59,14 +60,14 @@ namespace Gamenge {
          *
          * @return  The vertex shader source.
          */
-        const GLchar *getVertexSource();
+        std::string getVertexSource();
 
         /**
          * @brief      Gets the fragment shader source.
          *
          * @return     The fragment shader source.
          */
-        const GLchar *getFragmentSource();
+        std::string getFragmentSource();
 
         /**
          * @brief  Destroy the shader's OpenGL program.
@@ -74,14 +75,14 @@ namespace Gamenge {
         void destroy();
     private:
         GLuint programID;
-        const GLchar *vertexSource;
-        const GLchar *fragSource;
+        std::string vertexSource;
+        std::string fragSource;
         bool hasLinked;
 
         void init();
         void load(Path, Path);
         void load(Path, Path, bool);
-        const GLchar *parseSource(Path);
+        std::string parseSource(Path);
     };
 
 } // end namespace Gamenge
