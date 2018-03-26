@@ -278,11 +278,7 @@ Renderable *Renderer::getRenderable(GID rid)
     if (renderables.count(rid) == 0) {
         return NULL;
     }
-    try {
-        return &(renderables.at(rid));
-    } catch(const std::out_of_range& e) {
-        throw e;
-    }
+    return &(renderables.at(rid));
 }
 
 Camera *Renderer::getCamera(GID cameraID)
@@ -290,12 +286,7 @@ Camera *Renderer::getCamera(GID cameraID)
     if (cameras.count(cameraID) == 0) {
         return NULL;
     }
-    
-    try {
-        return &(cameras.at(cameraID));
-    } catch (const std::out_of_range& e) {
-        throw e;
-    }
+    return &(cameras.at(cameraID));
 }
 
 void Renderer::setActiveCamera(GID cameraID)

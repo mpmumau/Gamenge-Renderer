@@ -48,6 +48,8 @@ target_link_libraries(renderer
 )
 
 include(GNUInstallDirs)
+set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_LIBDIR}/gamenge/renderer")
+
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/Renderer)
 
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
@@ -60,7 +62,7 @@ install(TARGETS renderer
 
 set_target_properties(renderer PROPERTIES EXPORT_NAME Renderer)
 
-install(DIRECTORY source/inc DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY source/inc/gamenge DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 install(EXPORT renderer-targets
     FILE
