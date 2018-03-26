@@ -75,19 +75,15 @@ void Renderer::render()
     {
         renderable = &(r->second);
 
-        if (shaders.count(renderable->getShader()) == 0) {
+        if (shaders.count(renderable->getShader()) == 0 ||
+            textures.count(renderable->getTexture()) == 0 ||
+            meshes.count(renderable->getMesh()) == 0
+        ) {
             continue;
         }
+        
         shaderData = &(shaders.at(renderable->getShader()));
-
-        if (textures.count(renderable->getTexture()) == 0) {
-            continue;
-        }
         textureData = &(textures.at(renderable->getTexture()));
-
-        if (meshes.count(renderable->getMesh()) == 0) {
-            continue;
-        }
         meshData = &(meshes.at(renderable->getMesh()));
 
         programID = shaderData->getProgram();
