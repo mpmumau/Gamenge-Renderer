@@ -37,6 +37,13 @@ namespace Gamenge {
         TextureData(Path, bool);
 
         /**
+         * @brief  Copy constructor.
+         *
+         * @param[in]  rhs  The TextureData object to copy.
+         */
+        TextureData(const TextureData&);
+
+        /**
          * @brief  Destroy the texture data and release its resources.
          */
         ~TextureData();

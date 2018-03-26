@@ -301,8 +301,7 @@ Camera *Renderer::getCamera(GID cameraID)
 void Renderer::setActiveCamera(GID cameraID)
 {
     if (cameras.count(cameraID) == 0) {
-        // Todo: Throw an exception. Camera name does not exist.
-        exit(1);
+        throw std::out_of_range("The camera does not exist.");
     }
     activeCamera = cameraID;
 }

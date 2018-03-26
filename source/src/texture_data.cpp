@@ -35,14 +35,26 @@ TextureData::TextureData(Path filename, bool shouldBind)
     }
 }
 
+TextureData::TextureData(const TextureData &rhs)
+{
+    textureBufferID = rhs.textureBufferID;
+    numPixels = rhs.numPixels;
+    imageWidth = rhs.imageWidth;
+    imageHeight = rhs.imageHeight;
+    isBound = rhs.isBound;
+
+    if (rhs.data == NULL) {
+        data = rhs.data;
+    } else {
+        data = new unsigned char;
+        *data = *rhs.data;
+    }
+}
+
 TextureData::~TextureData()
 {
     if (data != NULL) {
-        // Todo: This class needs a copy constructor for this to work. 
-        // It mainly comes into play during testing, when a TextureData 
-        // object is created without immediately getting loaded into OpenGL.
-
-        //delete[] data;
+        delete[] data;
     }
     data = NULL;
 }

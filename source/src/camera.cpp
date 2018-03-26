@@ -30,7 +30,6 @@ void Camera::setDefaults()
     target = glm::vec3(0.0f, 0.0f, -1.0f);
     upDir = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    // Todo: abstract this up a bit; put some of these values into the Renderer class.
     fov = glm::radians(45.0f);
     aspectRatio = 16.0f / 9.0f;
     clipNear = 0.01f;
