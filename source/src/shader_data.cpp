@@ -40,11 +40,6 @@ ShaderData::ShaderData(Path vertFile, Path fragFile, bool shouldLink)
     }
 }
 
-ShaderData::~ShaderData()
-{
-    destroy();
-}
-
 void ShaderData::link()
 {
     if (hasLinked) {
