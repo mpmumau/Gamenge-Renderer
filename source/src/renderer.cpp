@@ -22,6 +22,22 @@
 
 using namespace Gamenge;
 
+void glMessageCallback( GLenum source,
+    GLenum type,
+    GLuint id,
+    GLenum severity,
+    GLsizei length,
+    const GLchar* message,
+    const void* userParam
+) {
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+        type,
+        severity,
+        message
+    );
+}
+
 Renderer::Renderer()
 {
     renderables.clear();
@@ -45,6 +61,9 @@ void Renderer::init()
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback((GLDEBUGPROC) glMessageCallback, 0);
 }
 
 void Renderer::render()
@@ -55,7 +74,7 @@ void Renderer::render()
         return;
     }
 
-    GLuint programID;
+    GLuint programID = 0;
 
     ShaderData *shaderData;
     TextureData *textureData;
@@ -81,12 +100,21 @@ void Renderer::render()
         ) {
             continue;
         }
-        
+
         shaderData = &(shaders.at(renderable->getShader()));
         textureData = &(textures.at(renderable->getTexture()));
         meshData = &(meshes.at(renderable->getMesh()));
 
         programID = shaderData->getProgram();
+
+        if (programID == 0) {
+            throw std::runtime_error("GL program associated with renderable is 0!");
+        }
+
+        if (glIsProgram(programID) == GL_FALSE) {
+            throw std::runtime_error("GL program associated with renderable does not exist!");
+        }
+
         glUseProgram(programID);
 
         /* Calculate and bind matrices */
@@ -403,3 +431,5 @@ glm::mat4 Renderer::getMVPMatrix(glm::mat4 model, glm::mat4 view, glm::mat4 proj
 {
     return projection * view * model;
 }
+
+

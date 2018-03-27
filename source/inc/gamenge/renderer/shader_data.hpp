@@ -39,11 +39,6 @@ namespace Gamenge {
         ShaderData(Path, Path, bool);
 
         /**
-         * @brief  Destroys the object, releasing the OpenGL program loaded in the process.
-         */
-        ~ShaderData();
-
-        /**
          * @brief  Load and link the program in OpenGL, if it has not already done so.
          */
         void link();

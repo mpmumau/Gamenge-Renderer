@@ -107,6 +107,7 @@ void TextureData::init()
     data = NULL;
     imageWidth = 0;
     imageHeight = 0;
+    isBound = false;
 }
 
 void TextureData::load(Path bmpFile, bool shouldBind)

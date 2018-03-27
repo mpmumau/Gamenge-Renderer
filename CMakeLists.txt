@@ -42,7 +42,7 @@ target_link_libraries(renderer
     PUBLIC
         OpenGL::GL
         ${GLEW_LIBRARIES}
-        ${assimp_LIBRARIES}
+        ${ASSIMP_LIBRARIES}
     PRIVATE
         # Boost::???
 )
