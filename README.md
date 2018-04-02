@@ -36,7 +36,7 @@ Simply require the package Gamenge::Renderer in your own CMake script.
 
 ## Running the unit tests
 
-From the build directory created during the installation process, run the command `make test` or `make test ARGS="-V"` to run the unit tests manually. They are also run during continuous integration, implemented on the Travis CI service.
+From the build directory created during the installation process, run the command `make test` or `make test ARGS="-V"` to run the unit tests manually.
 
 ## Building the documentation
 
