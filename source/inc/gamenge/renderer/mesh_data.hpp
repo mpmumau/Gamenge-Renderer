@@ -9,7 +9,9 @@
 using namespace Gamenge;
 
 namespace Gamenge {
-
+    /**
+     * @brief  A data object representing a mesh stored in OpenGL
+     */
     class MeshData {
     public:
         /**

@@ -11,7 +11,9 @@
 using namespace Gamenge;
 
 namespace Gamenge {
-
+    /**
+     * @brief  A data object representing an OpenGL shader program.
+     */
     class ShaderData
     {
     public:

@@ -11,7 +11,9 @@
 using namespace Gamenge;
 
 namespace Gamenge {
-
+    /**
+     * @brief  A data object representing a camera, or view pane.
+     */
     class Camera {
     public:
         /**

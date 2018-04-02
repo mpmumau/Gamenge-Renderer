@@ -34,6 +34,14 @@ CMake scripts are provided for a standard CMake installation process.
 
 Simply require the package Gamenge::Renderer in your own CMake script.
 
+## Running the unit tests
+
+From the build directory created during the installation process, run the command `make test` or `make test ARGS="-V"` to run the unit tests manually. They are also run during continuous integration, implemented on the Travis CI service.
+
+## Building the documentation
+
+From the build directory above, run `make doc` to build the automated HTML documentation, which will then be located in the `doc` directory from the project root.
+
 ## Use
 
 The Gamenge::Renderer library focuses on a class that's part of the Gamenge namespace, called Gamenge::Renderer.

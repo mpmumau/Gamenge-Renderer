@@ -11,7 +11,9 @@
 using namespace Gamenge;
 
 namespace Gamenge {
-
+    /**
+     * @brief  A data object representing a thing to be rendered.
+     */
     class Renderable {
     public:
         /**

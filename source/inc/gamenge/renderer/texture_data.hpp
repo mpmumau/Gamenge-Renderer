@@ -11,7 +11,9 @@
 using namespace Gamenge;
 
 namespace Gamenge {
-
+    /**
+     * @brief  A data object representing an OpenGL texture.
+     */
     class TextureData
     {
     public:

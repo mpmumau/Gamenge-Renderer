@@ -3,13 +3,15 @@
 
 namespace Gamenge {
     /** 
-     * @typedef A Gamenge ID value.
+     * @typedef  GID  A Gamenge ID value.
      */
     typedef unsigned long int GID;
     /** 
-     * @typedef A Gamenge-style file path. 
+     * @typedef  Path  A Gamenge-style file path. 
      */
     typedef const char * Path;
+
+
 }
 
 #endif
